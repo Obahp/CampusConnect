@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#152238">
-<title>CampusConnect</title>
 <style>
   :root{
     --navy:#152238;
@@ -23,7 +13,7 @@
     --danger:#B4483C;
   }
   *{box-sizing:border-box;}
-  html, body{margin:0;padding:0; height:100%;}
+  body{margin:0;padding:0;}
   .stage{
     display:flex;
     align-items:flex-start;
@@ -31,7 +21,6 @@
     padding:24px 12px;
     font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
     background:transparent;
-    min-height:100%;
   }
   .phone{
     width:375px;
@@ -44,109 +33,6 @@
     overflow:hidden;
     display:flex;
     flex-direction:column;
-  }
-  /* On an actual phone screen, drop the mockup bezel and fill the
-     real viewport so this behaves like an installed mobile web app
-     rather than a framed demo. */
-  @media (max-width:480px){
-    .stage{ padding:0; align-items:stretch; }
-    .phone{
-      width:100vw;
-      height:100dvh;
-      border:none;
-      border-radius:0;
-      box-shadow:none;
-    }
-    .notch, .home-indicator, .statusbar{ display:none; }
-    .bottom-nav{ padding-bottom:calc(14px + env(safe-area-inset-bottom, 0px)); }
-  }
-  .main-area{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    min-height:0;
-    overflow:hidden;
-  }
-  /* On a real desktop / laptop browser, present this as a website:
-     a persistent left sidebar instead of a bottom tab bar, and a
-     centered, wider reading column instead of a phone-width column. */
-  @media (min-width:900px){
-    html, body{ background:var(--cream); }
-    .stage{ padding:40px 24px; align-items:flex-start; }
-    .phone{
-      width:100%;
-      max-width:1180px;
-      height:calc(100vh - 80px);
-      min-height:640px;
-      margin:0 auto;
-      border:1px solid var(--line);
-      border-radius:20px;
-      box-shadow:0 30px 60px -30px rgba(21,34,56,0.25);
-      flex-direction:row;
-    }
-    .notch, .home-indicator, .statusbar{ display:none; }
-
-    .bottom-nav{
-      position:static;
-      order:-1;
-      width:230px;
-      flex-shrink:0;
-      height:100%;
-      flex-direction:column;
-      align-items:stretch;
-      justify-content:flex-start;
-      gap:2px;
-      background:var(--navy);
-      border-top:none;
-      border-right:1px solid rgba(255,255,255,0.08);
-      border-radius:20px 0 0 20px;
-      padding:26px 14px;
-      backdrop-filter:none;
-    }
-    .bottom-nav:before{
-      content:'CampusConnect';
-      display:block;
-      font-family:'Iowan Old Style','Palatino Linotype',Georgia,serif;
-      color:#fff;
-      font-size:18px;
-      padding:4px 14px 26px;
-    }
-    .bottom-nav .nav-item{
-      flex-direction:row;
-      justify-content:flex-start;
-      gap:12px;
-      padding:11px 14px;
-      border-radius:10px;
-      color:rgba(255,255,255,0.55);
-      font-size:13.5px;
-    }
-    .bottom-nav .nav-item:hover{ background:rgba(255,255,255,0.05); }
-    .bottom-nav .nav-item.active{ color:#fff; background:rgba(255,255,255,0.09); }
-    .bottom-nav .nav-item svg{ width:19px; height:19px; }
-
-    .main-area{ border-radius:0 20px 20px 0; }
-
-    /* Auth screens read as a website login page: a centered card
-       on a light page background, not a full-bleed mobile panel. */
-    #screen-login, #screen-signup, #screen-otp{
-      align-items:center;
-      justify-content:center;
-    }
-    .login-wrap{
-      flex:none;
-      width:380px;
-      border-radius:20px;
-      box-shadow:0 24px 60px -24px rgba(21,34,56,0.35);
-      padding:44px 40px;
-    }
-
-    .content{ max-width:640px; margin:0 auto; width:100%; padding:32px 40px 60px; }
-    .top-bar{ max-width:640px; margin:0 auto; width:100%; padding:30px 40px 6px; }
-    .app-header{ border-radius:0; }
-    .app-header .row, .app-header > *{ max-width:640px; margin-left:auto; margin-right:auto; }
-    .quick-grid{ grid-template-columns:repeat(4, minmax(0,1fr)); }
-
-    .toast{ left:calc(50% + 115px); }
   }
   .notch{
     position:absolute;
@@ -453,15 +339,11 @@
     text-align:center; font-size:11px; color:var(--slate); margin-top:16px; padding:0 8px;
   }
 </style>
-</head>
-<body>
 
 <div class="stage">
   <div class="phone">
     <div class="notch"></div>
     <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
-
-    <div class="main-area">
 
     <!-- LOGIN SCREEN -->
     <div class="screen active" id="screen-login">
@@ -540,11 +422,7 @@
             <input type="text" id="resumeName" placeholder="Full name">
           </div>
           <div class="field">
-            <label>School attended</label>
-            <input type="text" id="resumeSchool" placeholder="e.g. Brigham Young University">
-          </div>
-          <div class="field">
-            <label>Course of study</label>
+            <label>Major / program</label>
             <input type="text" id="resumeMajor" placeholder="e.g. B.S. Information Technology">
           </div>
           <p class="hint" style="margin-top:0;">Auto-fill is a simplified demo — it reads your file name and text where possible, so double-check these fields.</p>
@@ -739,7 +617,7 @@
             <div class="id-photo" id="idPhoto">AR</div>
           </div>
           <div class="id-name" id="idName">Alex Rivera</div>
-          <div class="id-major" id="idMajor">B.S. Information Technology · Class of 2027</div>
+          <div class="id-major">B.S. Information Technology · Class of 2027</div>
           <div class="id-bottom"><span id="idNumber">ID 00841273</span><span>Active</span></div>
         </div>
         <div class="profile-list">
@@ -750,8 +628,6 @@
         <button class="btn-primary" style="background:none; border:1.5px solid var(--danger); color:var(--danger); margin-top:6px;" onclick="doLogout()">Log Out</button>
         <p class="hint">This is a simulated screen for the CampusConnect prototype — no real student data is used.</p>
       </div>
-    </div>
-
     </div>
 
     <!-- BOTTOM NAV -->
@@ -770,11 +646,11 @@
 
 <script>
 const USERS = {
-  ruth:    { name: 'Ruth Bazolo',   initials: 'RB', id: 'ID 00841201', major: 'B.S. Information Technology · Class of 2027' },
-  prince:  { name: 'Prince Obah',   initials: 'PO', id: 'ID 00841202', major: 'B.S. Information Technology · Class of 2027' },
-  chioma:  { name: 'Chioma Odegemba', initials: 'CO', id: 'ID 00841203', major: 'B.S. Information Technology · Class of 2027' },
-  dartue:  { name: 'Edison Dartue', initials: 'ED', id: 'ID 00841204', major: 'B.S. Information Technology · Class of 2027' },
-  festus:  { name: 'Festus Ochonogor', initials: 'FO', id: 'ID 00841205', major: 'B.S. Information Technology · Class of 2027' }
+  ruth:    { name: 'Ruth Bazolo',   initials: 'RB', id: 'ID 00841201' },
+  prince:  { name: 'Prince Obah',   initials: 'PO', id: 'ID 00841202' },
+  chioma:  { name: 'Chioma Odegemba', initials: 'CO', id: 'ID 00841203' },
+  dartue:  { name: 'Edison Dartue', initials: 'ED', id: 'ID 00841204' },
+  festus:  { name: 'Festus Ochonogor', initials: 'FO', id: 'ID 00841205' }
 };
 
 function doLogout(){
@@ -811,7 +687,6 @@ function enterApp(profile){
   document.getElementById('idName').textContent = profile.name;
   document.getElementById('idPhoto').textContent = profile.initials;
   document.getElementById('idNumber').textContent = profile.id;
-  document.getElementById('idMajor').textContent = profile.major;
 
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-home').classList.add('active');
@@ -886,9 +761,9 @@ function handleResume(event){
 
   document.getElementById('resumeFileName').textContent = file.name;
 
-  // Best-effort demo extraction: plain-text resumes get scanned for a name,
-  // school, and course; other formats (PDF/DOCX) fall back to the file name,
-  // since parsing those properly needs a real backend this prototype doesn't have.
+  // Best-effort demo extraction: plain-text resumes get scanned for a name
+  // and email; other formats (PDF/DOCX) fall back to the file name, since
+  // parsing those properly needs a real backend this prototype doesn't have.
   const guessNameFromFilename = () => {
     return file.name
       .replace(/\.(pdf|docx?|txt)$/i, '')
@@ -904,20 +779,15 @@ function handleResume(event){
     reader.onload = e => {
       const text = e.target.result;
       const firstLine = text.split('\n').map(l => l.trim()).find(l => l.length > 2) || '';
-
-      const courseMatch = text.match(/(B\.?S\.?|B\.?A\.?|Bachelor of[^\n,.]*)[^\n,.]*/i);
-      const schoolMatch = text.match(/[^\n,.]*(University|College|Institute|Polytechnic)[^\n,.]*/i);
-
+      const majorMatch = text.match(/(B\.?S\.?|B\.?A\.?|Bachelor of[^\n,.]*)[^\n,.]*/i);
       document.getElementById('resumeName').value = firstLine.slice(0, 60) || guessNameFromFilename();
-      document.getElementById('resumeSchool').value = schoolMatch ? schoolMatch[0].trim() : 'Brigham Young University';
-      document.getElementById('resumeMajor').value = courseMatch ? courseMatch[0].trim() : 'B.S. Information Technology';
+      document.getElementById('resumeMajor').value = majorMatch ? majorMatch[0].trim() : 'B.S. Information Technology';
       document.getElementById('resumeParsed').style.display = 'block';
       document.getElementById('resumeContinueBtn').style.display = 'block';
     };
     reader.readAsText(file);
   } else {
     document.getElementById('resumeName').value = guessNameFromFilename();
-    document.getElementById('resumeSchool').value = 'Brigham Young University';
     document.getElementById('resumeMajor').value = 'B.S. Information Technology';
     document.getElementById('resumeParsed').style.display = 'block';
     document.getElementById('resumeContinueBtn').style.display = 'block';
@@ -926,17 +796,10 @@ function handleResume(event){
 
 function finishSignup(){
   const name = document.getElementById('resumeName').value.trim() || 'New Student';
-  const school = document.getElementById('resumeSchool').value.trim() || 'Brigham Young University';
-  const course = document.getElementById('resumeMajor').value.trim() || 'B.S. Information Technology';
   const initials = name.split(' ').filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') || 'NS';
   const idNum = 'ID ' + Math.floor(10000000 + Math.random() * 89999999);
 
-  // Random completion year, since a real graduation date isn't something
-  // a resume upload alone can reliably determine in this prototype.
-  const year = 2027 + Math.floor(Math.random() * 7); // 2027–2033 inclusive
-  const major = `${course} · ${school} · Class of ${year}`;
-
-  enterApp({ name, initials, id: idNum, major });
+  enterApp({ name, initials, id: idNum });
   showToast('Account created — welcome!');
 }
 
@@ -968,6 +831,3 @@ function showToast(msg){
   window._toastTimer = setTimeout(()=>t.classList.remove('show'), 1400);
 }
 </script>
-
-</body>
-</html>
