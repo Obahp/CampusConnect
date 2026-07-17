@@ -466,7 +466,14 @@
           </div>
         </div>
 
-        <p class="section-title">Today's Classes</p>
+        
+<p class="section-title">Campus Finder</p>
+<div class="card">
+<input type="text" id="campusSearch" placeholder="Search classrooms, faculty, or facilities..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;" onkeyup="searchCampus()">
+<div id="searchResults" style="margin-top:12px;"></div>
+</div>
+
+<p class="section-title">Today's Classes</p>
         <div class="card">
           <div class="class-row">
             <div class="class-time">9:00<span>AM</span></div>
@@ -830,4 +837,23 @@ function showToast(msg){
   clearTimeout(window._toastTimer);
   window._toastTimer = setTimeout(()=>t.classList.remove('show'), 1400);
 }
+
+const campusLocations=[
+{name:"Building 4 - Room 210",type:"Classroom",location:"Database Class"},
+{name:"Building 2 - Room 118",type:"Classroom",location:"Systems Analysis"},
+{name:"Professor Nakamura",type:"Faculty Office",location:"Building 4, Office 305"},
+{name:"Professor Whitfield",type:"Faculty Office",location:"Building 2, Office 112"},
+{name:"Library",type:"Campus Facility",location:"Central Campus"},
+{name:"Student Union Hall",type:"Campus Facility",location:"Main Campus"},
+{name:"Engineering Atrium",type:"Campus Facility",location:"Engineering Building"},
+{name:"Health Center",type:"Campus Facility",location:"West Campus"}
+];
+function searchCampus(){
+const input=document.getElementById("campusSearch").value.toLowerCase();
+const results=document.getElementById("searchResults");
+if(input===""){results.innerHTML="";return;}
+const matches=campusLocations.filter(i=>i.name.toLowerCase().includes(input)||i.type.toLowerCase().includes(input)||i.location.toLowerCase().includes(input));
+results.innerHTML=matches.length?matches.map(i=>`<div class="card" style="margin-bottom:8px;"><b>${i.name}</b><br><small>${i.type}</small><br>📍 ${i.location}</div>`).join(""):"<p style='color:#777;'>No matching locations found.</p>";
+}
+
 </script>
