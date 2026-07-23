@@ -1,0 +1,1619 @@
+<style>
+  :root{
+    --navy:#152238;
+    --navy-2:#1E3358;
+    --gold:#C99A3D;
+    --gold-soft:#EBD9AE;
+    --teal:#2F7A79;
+    --cream:#FAF6EE;
+    --card:#FFFFFF;
+    --ink:#1B1E27;
+    --slate:#6B7280;
+    --line:#E7E0D2;
+    --danger:#B4483C;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;padding:0;}
+  .stage{
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:24px 12px;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:transparent;
+  }
+  .phone{
+    width:375px;
+    height:790px;
+    background:var(--cream);
+    border-radius:44px;
+    border:10px solid var(--navy);
+    box-shadow:0 30px 60px -20px rgba(21,34,56,0.45), 0 0 0 1px rgba(21,34,56,0.05);
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .notch{
+    position:absolute;
+    top:0; left:50%; transform:translateX(-50%);
+    width:130px; height:22px;
+    background:var(--navy);
+    border-radius:0 0 16px 16px;
+    z-index:50;
+  }
+  .statusbar{
+    height:40px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    padding:0 24px 6px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink);
+    flex-shrink:0;
+  }
+  .screen{
+    display:none;
+    flex-direction:column;
+    flex:1;
+    overflow-y:auto;
+    animation:fadeIn .25s ease;
+  }
+  .screen.active{display:flex;}
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---- Serif display face for headings ---- */
+  .serif{ font-family:'Iowan Old Style','Palatino Linotype',Georgia,serif; }
+
+  /* ===== LOGIN ===== */
+  .login-wrap{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:0 30px;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(201,154,61,0.18), transparent 40%),
+      var(--navy);
+    color:#fff;
+  }
+  .seal{
+    width:78px; height:78px;
+    border-radius:50%;
+    border:2px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:18px;
+    background:rgba(255,255,255,0.03);
+  }
+  .login-title{ font-size:26px; letter-spacing:0.5px; margin:0 0 2px; }
+  .login-sub{ color:var(--gold-soft); font-size:13px; letter-spacing:2px; text-transform:uppercase; margin-bottom:38px; }
+  .field{
+    width:100%;
+    margin-bottom:14px;
+  }
+  .field label{
+    display:block; font-size:11px; color:var(--gold-soft);
+    letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;
+  }
+  .field input{
+    width:100%;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:10px;
+    padding:13px 14px;
+    color:#fff;
+    font-size:15px;
+    outline:none;
+  }
+  .field input:focus{ border-color:var(--gold); }
+  .field input::placeholder{ color:rgba(255,255,255,0.35); }
+  .btn-primary{
+    width:100%;
+    background:var(--gold);
+    color:var(--navy);
+    border:none;
+    border-radius:10px;
+    padding:14px;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:0.3px;
+    margin-top:10px;
+    cursor:pointer;
+  }
+  .btn-primary:active{ transform:scale(0.98); }
+  .login-foot{ margin-top:20px; font-size:12px; color:rgba(255,255,255,0.5); }
+  .link{ color:var(--gold); font-weight:600; cursor:pointer; text-decoration:underline; text-underline-offset:2px; }
+  .upload-box{
+    border:1.5px dashed var(--line);
+    border-radius:14px;
+    padding:22px 16px;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    text-align:center;
+    font-size:12.5px; color:var(--slate); font-weight:600;
+    cursor:pointer;
+    background:var(--card);
+    margin-bottom:16px;
+  }
+  .upload-box:active{ background:var(--gold-soft); }
+
+  /* ===== APP HEADER ===== */
+  .app-header{
+    flex-shrink:0;
+    background:var(--navy);
+    color:#fff;
+    padding:14px 20px 18px;
+    border-radius:0 0 22px 22px;
+  }
+  .app-header .eyebrow{ font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin:0; }
+  .app-header h1{ margin:2px 0 0; font-size:22px; font-weight:600; }
+  .app-header .row{ display:flex; align-items:center; justify-content:space-between; }
+  .avatar{
+    width:38px; height:38px; border-radius:50%;
+    background:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--navy); font-weight:700; font-size:14px;
+    border:2px solid rgba(255,255,255,0.25);
+  }
+
+  .content{ padding:16px 18px 90px; flex:1; }
+
+  .banner{
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:12px;
+    padding:12px 14px;
+    font-size:13px;
+    color:#5B4419;
+    margin-bottom:16px;
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+  }
+  .banner b{ display:block; margin-bottom:2px; font-size:13px; }
+
+  .section-title{
+    font-size:11px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--slate); font-weight:700; margin:20px 0 10px;
+  }
+  .section-title:first-child{ margin-top:0; }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:10px;
+  }
+  .class-row{ display:flex; align-items:center; gap:12px; }
+  .class-time{
+    width:52px; flex-shrink:0; text-align:center;
+    font-size:12px; font-weight:700; color:var(--teal);
+    border-right:2px solid var(--line); padding-right:10px;
+  }
+  .class-time span{ display:block; font-size:10px; color:var(--slate); font-weight:500; }
+  .class-info b{ font-size:14px; }
+  .class-info .meta{ font-size:12px; color:var(--slate); margin-top:2px; }
+
+  .quick-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:6px;
+  }
+  .quick-item{
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    cursor:pointer;
+  }
+  .quick-icon{
+    width:52px; height:52px; border-radius:14px;
+    background:var(--navy-2); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .quick-item span{ font-size:10.5px; color:var(--ink); text-align:center; font-weight:600; }
+
+  .event-card{ display:flex; gap:12px; }
+  .event-date{
+    width:46px; height:46px; flex-shrink:0; border-radius:10px;
+    background:var(--teal); color:#fff; text-align:center;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .event-date .d{ font-size:16px; font-weight:800; line-height:1; }
+  .event-date .m{ font-size:9px; text-transform:uppercase; letter-spacing:0.5px; }
+  .event-body{ flex:1; }
+  .event-body b{ font-size:14px; }
+  .event-body .meta{ font-size:12px; color:var(--slate); margin-top:2px; }
+  .chip{
+    display:inline-block; font-size:10px; font-weight:700; padding:3px 8px;
+    border-radius:20px; margin-top:6px; letter-spacing:0.3px;
+  }
+  .chip.academic{ background:#E4EEF0; color:var(--teal); }
+  .chip.social{ background:var(--gold-soft); color:#8A6415; }
+  .chip.sports{ background:#F3E1DE; color:var(--danger); }
+  .rsvp-btn{
+    border:1px solid var(--navy-2); color:var(--navy-2); background:none;
+    border-radius:8px; padding:6px 10px; font-size:11px; font-weight:700;
+    cursor:pointer; margin-top:8px;
+  }
+  .rsvp-btn.going{ background:var(--teal); border-color:var(--teal); color:#fff; }
+
+  .filter-row{ display:flex; gap:8px; margin-bottom:14px; overflow-x:auto; }
+  .filter-chip{
+    flex-shrink:0; padding:7px 14px; border-radius:20px; font-size:12px; font-weight:600;
+    border:1px solid var(--line); background:#fff; color:var(--slate); cursor:pointer;
+  }
+  .filter-chip.active{ background:var(--navy); color:#fff; border-color:var(--navy); }
+
+  .club-card{ display:flex; align-items:center; gap:12px; }
+  .club-icon{
+    width:44px; height:44px; border-radius:12px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--navy); color:#fff; font-size:16px; font-weight:800;
+  }
+  .club-info{ flex:1; }
+  .club-info b{ font-size:14px; }
+  .club-info .meta{ font-size:12px; color:var(--slate); }
+  .join-btn{
+    border:none; background:var(--gold); color:var(--navy);
+    padding:7px 12px; border-radius:8px; font-size:11.5px; font-weight:700; cursor:pointer;
+    flex-shrink:0;
+  }
+  .join-btn.joined{ background:var(--line); color:var(--slate); }
+
+  .msg-row{ display:flex; gap:12px; align-items:center; cursor:pointer; }
+  .msg-avatar{
+    width:42px; height:42px; border-radius:50%; flex-shrink:0;
+    background:var(--teal); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:13px;
+  }
+  .msg-body{ flex:1; min-width:0; }
+  .msg-row.unread .msg-body b{ color:var(--ink); }
+  .msg-top{ display:flex; justify-content:space-between; align-items:baseline; }
+  .msg-top b{ font-size:14px; }
+  .msg-top .time{ font-size:11px; color:var(--slate); }
+  .msg-preview{ font-size:12.5px; color:var(--slate); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .dot{ width:8px; height:8px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+
+  .id-card{
+    background:linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+    border-radius:16px; padding:20px; color:#fff; position:relative; overflow:hidden;
+    margin-bottom:16px;
+  }
+  .id-card:before{
+    content:''; position:absolute; right:-30px; top:-30px; width:120px; height:120px;
+    border-radius:50%; background:rgba(201,154,61,0.18);
+  }
+  .id-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:22px; }
+  .id-top .eyebrow{ font-size:10px; letter-spacing:2px; color:var(--gold-soft); text-transform:uppercase; }
+  .id-photo{
+    width:58px; height:58px; border-radius:12px; background:var(--gold);
+    display:flex; align-items:center; justify-content:center; color:var(--navy); font-weight:800; font-size:20px;
+  }
+  .id-name{ font-size:18px; font-weight:700; margin-bottom:2px; }
+  .id-major{ font-size:12.5px; color:rgba(255,255,255,0.65); }
+  .id-bottom{ display:flex; justify-content:space-between; margin-top:22px; font-size:11px; color:rgba(255,255,255,0.6); }
+
+  .profile-list .card{ display:flex; align-items:center; justify-content:space-between; padding:14px 16px; }
+  .profile-list .label{ font-size:14px; font-weight:600; }
+  .profile-list .value{ font-size:12.5px; color:var(--slate); }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav{
+    position:absolute; bottom:0; left:0; right:0;
+    height:76px;
+    background:rgba(250,246,238,0.92);
+    backdrop-filter:blur(6px);
+    border-top:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    padding-bottom:14px;
+    z-index:30;
+  }
+  .bottom-nav.hidden{ display:none; }
+  .nav-item{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:3px;
+    color:var(--slate); cursor:pointer; font-size:10px; font-weight:600;
+  }
+  .nav-item.active{ color:var(--navy); }
+  .nav-item svg{ width:22px; height:22px; }
+
+  .home-indicator{
+    position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+    width:120px; height:4px; border-radius:3px; background:var(--navy);
+    opacity:0.7; z-index:40;
+  }
+
+  .top-bar{
+    display:flex; align-items:center; gap:10px; padding:16px 18px 6px; flex-shrink:0;
+  }
+  .top-bar h2{ margin:0; font-size:19px; }
+  .back-btn{ cursor:pointer; color:var(--navy); display:flex; }
+
+  /* toast */
+  .toast{
+    position:absolute; bottom:92px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--navy); color:#fff; padding:10px 18px; border-radius:30px;
+    font-size:12.5px; font-weight:600; opacity:0; pointer-events:none; z-index:60;
+    transition:all .25s ease; white-space:nowrap;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  .hint{
+    text-align:center; font-size:11px; color:var(--slate); margin-top:16px; padding:0 8px;
+  }
+
+  /* Class detail modal */
+  .class-row{ cursor:pointer; }
+  .modal-overlay{
+    position:absolute; inset:0; background:rgba(10,14,20,0.55);
+    display:flex; align-items:flex-end; z-index:70;
+  }
+  .modal-overlay.hidden{ display:none; }
+  .modal-card{
+    background:#fff; width:100%; border-radius:20px 20px 0 0; padding:22px 18px 28px; position:relative;
+  }
+  .modal-close{ position:absolute; top:14px; right:16px; font-size:15px; color:var(--slate); cursor:pointer; }
+  .phone.dark .modal-card{ background:#1B212C; }
+  .phone.dark .modal-card h3{ color:#F2F0EA; }
+
+  /* ===== QUICK GRID (2 rows) ===== */
+  .quick-grid.wide{ grid-template-columns:repeat(4,1fr); row-gap:16px; }
+
+  /* ===== TABS (Academics hub) ===== */
+  .tab-row{ display:flex; gap:6px; margin-bottom:14px; overflow-x:auto; }
+  .tab-chip{
+    flex-shrink:0; padding:7px 13px; border-radius:20px; font-size:11.5px; font-weight:700;
+    border:1px solid var(--line); background:#fff; color:var(--slate); cursor:pointer;
+  }
+  .tab-chip.active{ background:var(--teal); color:#fff; border-color:var(--teal); }
+  .tab-pane{ display:none; }
+  .tab-pane.active{ display:block; }
+
+  /* GPA */
+  .gpa-hero{
+    background:linear-gradient(135deg, var(--teal) 0%, #1f5b5a 100%);
+    border-radius:16px; padding:18px; color:#fff; margin-bottom:14px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .gpa-hero .num{ font-size:34px; font-weight:800; line-height:1; }
+  .gpa-hero .lbl{ font-size:11px; letter-spacing:1px; text-transform:uppercase; opacity:0.85; margin-top:4px; }
+  .gpa-row{ display:flex; justify-content:space-between; align-items:center; }
+  .gpa-row .course{ font-size:13.5px; font-weight:600; }
+  .gpa-row .credits{ font-size:11px; color:var(--slate); }
+  .grade-pill{
+    font-size:12px; font-weight:800; padding:4px 10px; border-radius:8px;
+    background:var(--gold-soft); color:#8A6415;
+  }
+
+  /* Assignments */
+  .assign-row{ display:flex; align-items:flex-start; gap:12px; }
+  .check-circle{
+    width:22px; height:22px; border-radius:50%; border:2px solid var(--line); flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; margin-top:1px;
+    color:#fff; font-size:12px;
+  }
+  .check-circle.done{ background:var(--teal); border-color:var(--teal); }
+  .assign-body b{ font-size:13.5px; }
+  .assign-body .meta{ font-size:12px; color:var(--slate); margin-top:2px; }
+  .assign-row.done .assign-body b{ text-decoration:line-through; color:var(--slate); }
+  .due-soon{ color:var(--danger); font-weight:700; }
+
+  /* Materials */
+  .material-row{ display:flex; align-items:center; gap:12px; }
+  .material-icon{
+    width:38px; height:38px; border-radius:10px; flex-shrink:0;
+    background:var(--navy-2); color:#fff; display:flex; align-items:center; justify-content:center;
+  }
+  .material-body b{ font-size:13.5px; display:block; }
+  .material-body .meta{ font-size:11.5px; color:var(--slate); }
+
+  /* Calendar */
+  .cal-row{ display:flex; gap:12px; align-items:flex-start; }
+  .cal-dot{ width:8px; height:8px; border-radius:50%; background:var(--gold); margin-top:6px; flex-shrink:0; }
+  .cal-body b{ font-size:13.5px; }
+  .cal-body .meta{ font-size:12px; color:var(--slate); }
+
+  .search-input{
+    width:100%; padding:12px; border:1px solid var(--line); border-radius:10px;
+    font-size:13.5px; font-family:inherit; margin-bottom:4px;
+  }
+
+  /* Campus Map */
+  .map-wrap{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:12px; margin-bottom:14px;
+  }
+  .map-svg rect{ cursor:pointer; transition:opacity .15s; }
+  .map-svg rect:active{ opacity:0.7; }
+  .map-svg text{ pointer-events:none; }
+
+  /* Study Groups */
+  .sg-row{ display:flex; align-items:center; gap:12px; }
+  .sg-icon{
+    width:44px; height:44px; border-radius:12px; flex-shrink:0;
+    background:var(--teal); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:15px; font-weight:800;
+  }
+  .sg-info{ flex:1; }
+  .sg-info b{ font-size:14px; }
+  .sg-info .meta{ font-size:12px; color:var(--slate); }
+
+  /* Poll + feedback */
+  .poll-option{
+    border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin-bottom:8px;
+    font-size:13px; font-weight:600; cursor:pointer; position:relative; overflow:hidden;
+  }
+  .poll-option .fill{
+    position:absolute; left:0; top:0; bottom:0; background:var(--gold-soft); z-index:0; transition:width .4s ease;
+  }
+  .poll-option .label{ position:relative; z-index:1; display:flex; justify-content:space-between; }
+  .poll-option.voted{ border-color:var(--teal); }
+  textarea.field-input{
+    width:100%; border:1px solid var(--line); border-radius:10px; padding:12px;
+    font-size:13.5px; font-family:inherit; resize:none; min-height:90px; margin-bottom:12px;
+  }
+
+  /* Settings toggles */
+  .toggle-row{ display:flex; justify-content:space-between; align-items:center; padding:14px 16px; }
+  .toggle-row .label{ font-size:14px; font-weight:600; }
+  .switch{ width:44px; height:26px; border-radius:20px; background:var(--line); position:relative; cursor:pointer; flex-shrink:0; transition:background .2s; }
+  .switch.on{ background:var(--teal); }
+  .switch .knob{ width:20px; height:20px; border-radius:50%; background:#fff; position:absolute; top:3px; left:3px; transition:left .2s; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
+  .switch.on .knob{ left:21px; }
+
+  /* Dark mode */
+  .phone.dark{ background:#12161F; }
+  .phone.dark .content{ background:#12161F; }
+  .phone.dark .card, .phone.dark .map-wrap{ background:#1B212C; border-color:#2A3140; }
+  .phone.dark .section-title{ color:#8B93A3; }
+  .phone.dark .class-info b, .phone.dark .event-body b, .phone.dark .club-info b,
+  .phone.dark .msg-top b, .phone.dark .gpa-row .course, .phone.dark .assign-body b,
+  .phone.dark .material-body b, .phone.dark .cal-body b, .phone.dark .sg-info b,
+  .phone.dark .label, .phone.dark h2{ color:#F2F0EA; }
+  .phone.dark .meta, .phone.dark .credits{ color:#8B93A3; }
+  .phone.dark .bottom-nav{ background:rgba(18,22,31,0.92); border-color:#2A3140; }
+  .phone.dark .top-bar h2{ color:#F2F0EA; }
+  .phone.dark .tab-chip, .phone.dark .filter-chip, .phone.dark .search-input{
+    background:#1B212C; border-color:#2A3140; color:#C9CFDA;
+  }
+</style>
+
+<div class="stage">
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+
+    <!-- LOGIN SCREEN -->
+    <div class="screen active" id="screen-login">
+      <div class="login-wrap">
+        <div class="seal">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C99A3D" stroke-width="1.6"><path d="M12 3L2 8l10 5 10-5-10-5z"/><path d="M2 8v6l10 5 10-5V8"/><path d="M6 10.5V16c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5.5"/></svg>
+        </div>
+        <h1 class="login-title serif">CampusConnect</h1>
+        <p class="login-sub">Keeping in Touch</p>
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="uname" placeholder="e.g. Prince" autocomplete="off">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="pword" placeholder="••••••••" autocomplete="off">
+        </div>
+        <p id="loginError" style="color:#E8A9A0; font-size:12.5px; margin:-4px 0 10px; display:none;">Incorrect username or password.</p>
+        <button class="btn-primary" onclick="doLogin()">Log In</button>
+        <p class="login-foot">Forgot password? Contact IT Support</p>
+        <p class="login-foot" style="margin-top:14px;">New here? <span class="link" onclick="goToSignup()">Create an account</span></p>
+      </div>
+    </div>
+
+    <!-- SIGN UP: GMAIL -->
+    <div class="screen" id="screen-signup">
+      <div class="login-wrap">
+        <div class="seal">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C99A3D" stroke-width="1.6"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>
+        </div>
+        <h1 class="login-title serif">Create account</h1>
+        <p class="login-sub">Sign up with Gmail</p>
+        <div class="field">
+          <label>Gmail address</label>
+          <input type="email" id="signupEmail" placeholder="you@gmail.com" autocomplete="off">
+        </div>
+        <p id="signupError" style="color:#E8A9A0; font-size:12.5px; margin:-4px 0 10px; display:none;">Enter a valid @gmail.com address.</p>
+        <button class="btn-primary" onclick="sendOtp()">Send verification code</button>
+        <p class="login-foot" style="margin-top:14px;"><span class="link" onclick="goToLogin()">Back to log in</span></p>
+      </div>
+    </div>
+
+    <!-- SIGN UP: OTP -->
+    <div class="screen" id="screen-otp">
+      <div class="login-wrap">
+        <div class="seal">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C99A3D" stroke-width="1.6"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h1 class="login-title serif">Verify it's you</h1>
+        <p class="login-sub" id="otpSubtitle" style="text-transform:none; letter-spacing:0.2px;">Code sent to your inbox</p>
+        <div class="field">
+          <label>6-digit code</label>
+          <input type="text" id="otpInput" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="off" style="letter-spacing:6px; text-align:center; font-size:18px;">
+        </div>
+        <p id="otpError" style="color:#E8A9A0; font-size:12.5px; margin:-4px 0 10px; display:none;">That code doesn't match. Try again.</p>
+        <button class="btn-primary" onclick="verifyOtp()">Verify code</button>
+        <p class="login-foot" style="margin-top:14px;"><span class="link" onclick="sendOtp(true)">Resend code</span> · <span class="link" onclick="goToLogin()">Cancel</span></p>
+      </div>
+    </div>
+
+    <!-- SIGN UP: RESUME UPLOAD -->
+    <div class="screen" id="screen-resume">
+      <div class="top-bar"><h2 class="serif">Complete your profile</h2></div>
+      <div class="content">
+        <p style="font-size:13px; color:var(--slate); margin-top:0;">Upload your resume and we'll fill in your profile details. You can edit anything before continuing.</p>
+        <div class="upload-box" onclick="document.getElementById('resumeFile').click()">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--navy-2)" stroke-width="1.6"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+          <span id="resumeFileName">Tap to upload resume (PDF, DOC, DOCX, TXT)</span>
+        </div>
+        <input type="file" id="resumeFile" accept=".pdf,.doc,.docx,.txt" style="display:none;" onchange="handleResume(event)">
+
+        <div id="resumeParsed" style="display:none;">
+          <p class="section-title">Detected from resume</p>
+          <div class="field">
+            <label>Full name</label>
+            <input type="text" id="resumeName" placeholder="Full name">
+          </div>
+          <div class="field">
+            <label>Major / program</label>
+            <input type="text" id="resumeMajor" placeholder="e.g. B.S. Information Technology">
+          </div>
+          <p class="hint" style="margin-top:0;">Auto-fill is a simplified demo — it reads your file name and text where possible, so double-check these fields.</p>
+        </div>
+
+        <button class="btn-primary" id="resumeContinueBtn" style="display:none;" onclick="finishSignup()">Continue to CampusConnect</button>
+        <p style="text-align:center; margin-top:14px; font-size:12px; color:var(--slate);"><span class="link" onclick="goToLogin()">Cancel</span></p>
+      </div>
+    </div>
+
+    <!-- HOME SCREEN -->
+    <div class="screen" id="screen-home">
+      <div class="app-header">
+        <div class="row">
+          <div>
+            <p class="eyebrow">Thursday, July 16</p>
+            <h1>Good afternoon, <span id="greetName">Alex</span></h1>
+          </div>
+          <div class="avatar" onclick="goTo('profile')" id="avatarInitials">AR</div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="banner">
+          <span>📣</span>
+          <div><b>Campus Announcement</b>Library extended hours begin this week for finals prep — open until 2am.</div>
+        </div>
+
+        <p class="section-title">Quick Access</p>
+        <div class="quick-grid wide">
+          <div class="quick-item" onclick="goTo('schedule')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></div><span>Schedule</span>
+          </div>
+          <div class="quick-item" onclick="goTo('events')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg></div><span>Events</span>
+          </div>
+          <div class="quick-item" onclick="goTo('clubs')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/><circle cx="17.5" cy="9" r="2.4"/><path d="M15 14.2c2.7.4 4.8 2.4 5 5.8"/></svg></div><span>Clubs</span>
+          </div>
+          <div class="quick-item" onclick="goTo('messages')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span>Messages</span>
+          </div>
+          <div class="quick-item" onclick="goTo('academics')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg></div><span>Academics</span>
+          </div>
+          <div class="quick-item" onclick="goTo('map')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-6-3V4l6 3 6-3 6 3v13l-6-3-6 3z"/><path d="M9 4v13M15 7v13"/></svg></div><span>Campus Map</span>
+          </div>
+          <div class="quick-item" onclick="goTo('studygroups')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6M10 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></div><span>Study Groups</span>
+          </div>
+          <div class="quick-item" onclick="goTo('feedback')">
+            <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h8M8 13h5"/></svg></div><span>Feedback</span>
+          </div>
+        </div>
+
+        
+<p class="section-title">Campus Finder</p>
+<div class="card">
+<input type="text" id="campusSearch" placeholder="Search classrooms, faculty, or facilities..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;" onkeyup="searchCampus()">
+<div id="searchResults" style="margin-top:12px;"></div>
+</div>
+
+<p class="section-title">Today's Classes</p>
+        <div id="homeTodayClasses">
+        <div class="card">
+          <div class="class-row">
+            <div class="class-time">9:00<span>AM</span></div>
+            <div class="class-info"><b>Intro to Databases</b><div class="meta">Bldg 4, Room 210 · Prof. Nakamura</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="class-row">
+            <div class="class-time">1:30<span>PM</span></div>
+            <div class="class-info"><b>Systems Analysis &amp; Design</b><div class="meta">Bldg 2, Room 118 · Prof. Whitfield</div></div>
+          </div>
+        </div>
+        </div>
+
+        <p class="section-title">Happening Soon</p>
+        <div id="homeUpcomingEvent">
+        <div class="card event-card">
+          <div class="event-date"><div class="d">18</div><div class="m">Jul</div></div>
+          <div class="event-body">
+            <b>Career Fair: Tech &amp; Innovation</b>
+            <div class="meta">10:00 AM · Student Union Hall</div>
+            <span class="chip academic">Academic</span>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCHEDULE SCREEN -->
+    <div class="screen" id="screen-schedule">
+      <div class="top-bar"><h2 class="serif">My Schedule</h2></div>
+      <div class="content">
+        <p class="section-title">Thursday, July 16</p>
+        <div id="scheduleClassList">
+        <div class="card"><div class="class-row"><div class="class-time">9:00<span>AM</span></div><div class="class-info"><b>Intro to Databases</b><div class="meta">Bldg 4, Room 210 · Prof. Nakamura</div></div></div></div>
+        <div class="card"><div class="class-row"><div class="class-time">11:00<span>AM</span></div><div class="class-info"><b>Technical Writing</b><div class="meta">Bldg 1, Room 305 · Prof. Ilori</div></div></div></div>
+        <div class="card"><div class="class-row"><div class="class-time">1:30<span>PM</span></div><div class="class-info"><b>Systems Analysis &amp; Design</b><div class="meta">Bldg 2, Room 118 · Prof. Whitfield</div></div></div></div>
+        <div class="card"><div class="class-row"><div class="class-time">4:00<span>PM</span></div><div class="class-info"><b>Cybersecurity Fundamentals Lab</b><div class="meta">Bldg 4, Room 112 · Prof. Santos</div></div></div></div>
+        </div>
+        <p class="section-title">Attendance</p>
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;"><span>Classes attended this term</span><b>42/45</b></div>
+          <div style="height:8px; background:var(--line); border-radius:6px; overflow:hidden;"><div style="width:93%; height:100%; background:var(--teal);"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVENTS SCREEN -->
+    <div class="screen" id="screen-events">
+      <div class="top-bar"><h2 class="serif">Campus Events</h2></div>
+      <div class="content">
+        <div class="filter-row" id="eventFilterRow">
+          <div class="filter-chip active" data-cat="all" onclick="filterEvents(this)">All</div>
+          <div class="filter-chip" data-cat="academic" onclick="filterEvents(this)">Academic</div>
+          <div class="filter-chip" data-cat="social" onclick="filterEvents(this)">Social</div>
+          <div class="filter-chip" data-cat="sports" onclick="filterEvents(this)">Sports</div>
+        </div>
+        <div id="eventsList">
+        <div class="card event-card" data-cat="academic">
+          <div class="event-date"><div class="d">18</div><div class="m">Jul</div></div>
+          <div class="event-body">
+            <b>Career Fair: Tech &amp; Innovation</b>
+            <div class="meta">10:00 AM · Student Union Hall</div>
+            <span class="chip academic">Academic</span><br>
+            <button class="rsvp-btn" onclick="toggleRSVP(this)">RSVP</button>
+          </div>
+        </div>
+        <div class="card event-card" data-cat="social">
+          <div class="event-date"><div class="d">20</div><div class="m">Jul</div></div>
+          <div class="event-body">
+            <b>Movie Night on the Quad</b>
+            <div class="meta">8:30 PM · Central Quad</div>
+            <span class="chip social">Social</span><br>
+            <button class="rsvp-btn going" onclick="toggleRSVP(this)">Going ✓</button>
+          </div>
+        </div>
+        <div class="card event-card" data-cat="academic">
+          <div class="event-date"><div class="d">23</div><div class="m">Jul</div></div>
+          <div class="event-body">
+            <b>Robotics Club Showcase</b>
+            <div class="meta">2:00 PM · Engineering Atrium</div>
+            <span class="chip academic">Academic</span><br>
+            <button class="rsvp-btn" onclick="toggleRSVP(this)">RSVP</button>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLUBS SCREEN -->
+    <div class="screen" id="screen-clubs">
+      <div class="top-bar"><h2 class="serif">Clubs &amp; Orgs</h2></div>
+      <div class="content">
+        <div class="card club-card">
+          <div class="club-icon">R</div>
+          <div class="club-info"><b>Robotics Club</b><div class="meta">312 members</div></div>
+          <button class="join-btn joined" onclick="toggleJoin(this)">Joined</button>
+        </div>
+        <div class="card club-card">
+          <div class="club-icon">D</div>
+          <div class="club-info"><b>Debate Society</b><div class="meta">128 members</div></div>
+          <button class="join-btn" onclick="toggleJoin(this)">Join</button>
+        </div>
+        <div class="card club-card">
+          <div class="club-icon">P</div>
+          <div class="club-info"><b>Photography Collective</b><div class="meta">204 members</div></div>
+          <button class="join-btn" onclick="toggleJoin(this)">Join</button>
+        </div>
+        <div class="card club-card">
+          <div class="club-icon">V</div>
+          <div class="club-info"><b>Volunteer Network</b><div class="meta">460 members</div></div>
+          <button class="join-btn" onclick="toggleJoin(this)">Join</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACADEMICS HUB: GPA / ASSIGNMENTS / MATERIALS / CALENDAR -->
+    <div class="screen" id="screen-academics">
+      <div class="top-bar"><h2 class="serif">Academics</h2></div>
+      <div class="content">
+        <input type="text" class="search-input" id="courseSearch" placeholder="Search your courses..." onkeyup="searchCourses()">
+        <div id="courseSearchResults"></div>
+
+        <div class="tab-row">
+          <div class="tab-chip active" data-tab="gpa" onclick="showAcademicsTab('gpa')">GPA</div>
+          <div class="tab-chip" data-tab="assignments" onclick="showAcademicsTab('assignments')">Assignments</div>
+          <div class="tab-chip" data-tab="materials" onclick="showAcademicsTab('materials')">Materials</div>
+          <div class="tab-chip" data-tab="calendar" onclick="showAcademicsTab('calendar')">Calendar</div>
+        </div>
+
+        <!-- GPA TRACKER -->
+        <div class="tab-pane active" id="pane-gpa">
+          <div class="gpa-hero">
+            <div><div class="num" id="gpaCumulative">3.62</div><div class="lbl">Cumulative GPA</div></div>
+            <div style="text-align:right;"><div class="num" style="font-size:20px;" id="gpaCredits">15</div><div class="lbl">Credits — Term</div></div>
+          </div>
+          <p class="section-title">This Term</p>
+          <div id="gpaCourseList"></div>
+          <p class="hint" style="margin-top:0;">GPA updates automatically as grades post. This is simulated demo data.</p>
+        </div>
+
+        <!-- ASSIGNMENT REMINDERS -->
+        <div class="tab-pane" id="pane-assignments">
+          <div class="banner" id="assignmentBanner"><span>⏰</span><div><b>Due soon</b><span id="assignmentBannerText"></span></div></div>
+          <p class="section-title">Upcoming</p>
+          <div id="assignmentList"></div>
+          <p class="hint" style="margin-top:0;">Tap an assignment to mark it complete.</p>
+        </div>
+
+        <!-- COURSE MATERIALS -->
+        <div class="tab-pane" id="pane-materials">
+          <div id="materialsList"></div>
+        </div>
+
+        <!-- ACADEMIC CALENDAR -->
+        <div class="tab-pane" id="pane-calendar">
+          <p class="section-title">Key Dates</p>
+          <div class="card cal-row"><div class="cal-dot"></div><div class="cal-body"><b>Add/Drop deadline</b><div class="meta">Fri, Jul 24</div></div></div>
+          <div class="card cal-row"><div class="cal-dot"></div><div class="cal-body"><b>Midterm exams begin</b><div class="meta">Mon, Aug 3</div></div></div>
+          <div class="card cal-row"><div class="cal-dot"></div><div class="cal-body"><b>Registration opens — Fall term</b><div class="meta">Mon, Aug 10</div></div></div>
+          <div class="card cal-row"><div class="cal-dot"></div><div class="cal-body"><b>Finals week</b><div class="meta">Dec 8 – Dec 12</div></div></div>
+          <div class="card cal-row"><div class="cal-dot"></div><div class="cal-body"><b>Winter break begins</b><div class="meta">Dec 15</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMPUS MAP -->
+    <div class="screen" id="screen-map">
+      <div class="top-bar"><h2 class="serif">Campus Map</h2></div>
+      <div class="content">
+        <input type="text" class="search-input" id="campusSearch2" placeholder="Search classrooms, faculty, or facilities..." onkeyup="searchCampus2()">
+        <div id="searchResults2" style="margin-bottom:12px;"></div>
+
+        <div class="map-wrap">
+          <svg class="map-svg" viewBox="0 0 300 220" width="100%">
+            <rect x="10" y="15" width="70" height="45" rx="6" fill="#2F7A79" onclick="showBuilding('lib', this)"/>
+            <text x="45" y="42" font-size="9" fill="#fff" text-anchor="middle">Library</text>
+            <rect x="95" y="15" width="70" height="45" rx="6" fill="#1E3358" onclick="showBuilding('b1', this)"/>
+            <text x="130" y="42" font-size="9" fill="#fff" text-anchor="middle">Bldg 1</text>
+            <rect x="180" y="15" width="110" height="45" rx="6" fill="#1E3358" onclick="showBuilding('b2', this)"/>
+            <text x="235" y="42" font-size="9" fill="#fff" text-anchor="middle">Bldg 2</text>
+
+            <rect x="10" y="75" width="110" height="45" rx="6" fill="#C99A3D" onclick="showBuilding('union', this)"/>
+            <text x="65" y="102" font-size="9" fill="#152238" text-anchor="middle">Student Union</text>
+            <rect x="130" y="75" width="70" height="45" rx="6" fill="#1E3358" onclick="showBuilding('b4', this)"/>
+            <text x="165" y="102" font-size="9" fill="#fff" text-anchor="middle">Bldg 4</text>
+            <rect x="210" y="75" width="80" height="45" rx="6" fill="#1E3358" onclick="showBuilding('eng', this)"/>
+            <text x="250" y="102" font-size="9" fill="#fff" text-anchor="middle">Engineering</text>
+
+            <rect x="10" y="135" width="90" height="45" rx="6" fill="#B4483C" onclick="showBuilding('health', this)"/>
+            <text x="55" y="162" font-size="9" fill="#fff" text-anchor="middle">Health Ctr</text>
+            <rect x="110" y="135" width="180" height="45" rx="6" fill="#2F7A79" onclick="showBuilding('quad', this)"/>
+            <text x="200" y="162" font-size="9" fill="#fff" text-anchor="middle">Central Quad</text>
+          </svg>
+          <p class="hint" style="margin-top:10px; margin-bottom:0;">Tap a building to see what's inside, then open it live in Google Maps.</p>
+        </div>
+
+        <div id="buildingInfo"></div>
+        <a id="gmapLink" href="#" target="_blank" rel="noopener" class="btn-primary" style="display:block; text-align:center; text-decoration:none; box-sizing:border-box;">Open in Google Maps ↗</a>
+      </div>
+    </div>
+
+    <!-- STUDY GROUP FINDER -->
+    <div class="screen" id="screen-studygroups">
+      <div class="top-bar"><h2 class="serif">Study Groups</h2></div>
+      <div class="content">
+        <input type="text" class="search-input" id="sgSearch" placeholder="Search by course..." onkeyup="searchStudyGroups()">
+        <div id="sgList"></div>
+        <button class="btn-primary" style="margin-top:6px;" onclick="showToast('Study group created!')">+ Create a study group</button>
+      </div>
+    </div>
+
+    <!-- FEEDBACK & POLLS -->
+    <div class="screen" id="screen-feedback">
+      <div class="top-bar"><h2 class="serif">Feedback &amp; Polls</h2></div>
+      <div class="content">
+        <p class="section-title">Quick Poll</p>
+        <div class="card">
+          <b style="font-size:13.5px; display:block; margin-bottom:10px;">How was your registration experience this term?</b>
+          <div class="poll-option" onclick="votePoll(this, 'great')"><div class="fill" style="width:0%"></div><div class="label"><span>Great</span><span class="pct"></span></div></div>
+          <div class="poll-option" onclick="votePoll(this, 'ok')"><div class="fill" style="width:0%"></div><div class="label"><span>It was okay</span><span class="pct"></span></div></div>
+          <div class="poll-option" onclick="votePoll(this, 'frustrating')"><div class="fill" style="width:0%"></div><div class="label"><span>Frustrating</span><span class="pct"></span></div></div>
+          <p class="hint" style="margin-top:2px;" id="pollHint">Tap an option to vote.</p>
+        </div>
+
+        <p class="section-title">App Feedback</p>
+        <div class="card">
+          <textarea class="field-input" id="feedbackText" placeholder="What should we improve about CampusConnect?"></textarea>
+          <button class="btn-primary" onclick="submitFeedback()">Submit feedback</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MESSAGES SCREEN -->
+    <div class="screen" id="screen-messages">
+      <div class="top-bar"><h2 class="serif">Messages</h2></div>
+      <div class="content">
+        <div class="card msg-row unread">
+          <div class="msg-avatar">JN</div>
+          <div class="msg-body">
+            <div class="msg-top"><b>Prof. Nakamura</b><span class="time">9:14 AM</span></div>
+            <div class="msg-preview">Quiz 3 has been moved to next Tuesday.</div>
+          </div>
+          <div class="dot"></div>
+        </div>
+        <div class="card msg-row">
+          <div class="msg-avatar">RC</div>
+          <div class="msg-body">
+            <div class="msg-top"><b>Robotics Club</b><span class="time">Yesterday</span></div>
+            <div class="msg-preview">Don't forget the showcase sign-up sheet!</div>
+          </div>
+        </div>
+        <div class="card msg-row">
+          <div class="msg-avatar">SG</div>
+          <div class="msg-body">
+            <div class="msg-top"><b>Study Group — Databases</b><span class="time">Mon</span></div>
+            <div class="msg-preview">Meeting at the library, 3rd floor, 6pm.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE / DIGITAL ID -->
+    <div class="screen" id="screen-profile">
+      <div class="top-bar"><h2 class="serif">Digital ID</h2></div>
+      <div class="content">
+        <div class="id-card">
+          <div class="id-top">
+            <div>
+              <p class="eyebrow">CampusConnect</p>
+            </div>
+            <div class="id-photo" id="idPhoto">AR</div>
+          </div>
+          <div class="id-name" id="idName">Alex Rivera</div>
+          <div class="id-major" id="idMajor">B.S. Information Technology · Class of 2027</div>
+          <div class="id-bottom"><span id="idNumber">ID 00841273</span><span>Active</span></div>
+        </div>
+        <div class="profile-list">
+          <div class="card"><span class="label">Meal Plan</span><span class="value">Unlimited</span></div>
+          <div class="card"><span class="label">Library Fines</span><span class="value">$0.00</span></div>
+        </div>
+
+        <p class="section-title">App Settings</p>
+        <div class="card" style="padding:0;">
+          <div class="toggle-row"><span class="label">Dark Mode</span><div class="switch" id="darkSwitch" onclick="toggleDark()"><div class="knob"></div></div></div>
+        </div>
+        <div class="card" style="padding:0;">
+          <div class="toggle-row"><span class="label">Offline Access (Schedule)</span><div class="switch on" id="offlineSwitch" onclick="toggleOffline()"><div class="knob"></div></div></div>
+        </div>
+        <div class="card" style="padding:0;">
+          <div class="toggle-row"><span class="label">Notifications</span><div class="switch on" id="notifSwitch" onclick="toggleSwitch(this)"><div class="knob"></div></div></div>
+        </div>
+        <div class="card" style="padding:0;">
+          <div class="toggle-row" style="cursor:pointer;" onclick="goTo('feedback')"><span class="label">Send Feedback</span><span style="color:var(--slate);">›</span></div>
+        </div>
+
+        <button class="btn-primary" style="background:none; border:1.5px solid var(--danger); color:var(--danger); margin-top:6px;" onclick="doLogout()">Log Out</button>
+        <p class="hint">This is a simulated screen for the CampusConnect prototype — no real student data is used.</p>
+      </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav hidden" id="bottomNav">
+      <div class="nav-item active" data-screen="home" onclick="goTo('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>Home</span></div>
+      <div class="nav-item" data-screen="schedule" onclick="goTo('schedule')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg><span>Schedule</span></div>
+      <div class="nav-item" data-screen="events" onclick="goTo('events')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg><span>Events</span></div>
+      <div class="nav-item" data-screen="clubs" onclick="goTo('clubs')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/><circle cx="17.5" cy="9" r="2.4"/><path d="M15 14.2c2.7.4 4.8 2.4 5 5.8"/></svg><span>Clubs</span></div>
+      <div class="nav-item" data-screen="messages" onclick="goTo('messages')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Messages</span></div>
+    </div>
+
+    <div class="modal-overlay hidden" id="classModal" onclick="if(event.target===this) closeClassModal()">
+      <div class="modal-card">
+        <div class="modal-close" onclick="closeClassModal()">✕</div>
+        <p class="section-title" style="margin-top:0;">Class Details</p>
+        <h3 id="modalCourseName" class="serif" style="margin:2px 0 4px; font-size:18px;"></h3>
+        <div class="meta" id="modalCourseMeta" style="margin-bottom:16px;"></div>
+        <button class="btn-primary" id="modalMapBtn" onclick="goToMapFromModal()">View on Campus Map</button>
+        <a class="btn-primary" id="modalDirectionsBtn" href="#" target="_blank" rel="noopener"
+           style="display:block; text-align:center; text-decoration:none; box-sizing:border-box; background:none; border:1.5px solid var(--teal); color:var(--teal); margin-top:8px;">Get Directions ↗</a>
+      </div>
+    </div>
+
+    <div class="toast" id="toast">Saved</div>
+    <div class="home-indicator"></div>
+  </div>
+</div>
+
+<script>
+const USERS = {
+  ruth:    { name: 'Ruth Bazolo',   initials: 'RB', id: 'ID 00841201', major: 'B.S. Nursing' },
+  prince:  { name: 'Prince Obah',   initials: 'PO', id: 'ID 00841202', major: 'B.S. Information Technology' },
+  chioma:  { name: 'Chioma Odegemba', initials: 'CO', id: 'ID 00841203', major: 'B.B.A. Business Administration' },
+  dartue:  { name: 'Edison Dartue', initials: 'ED', id: 'ID 00841204', major: 'B.S. Mechanical Engineering' },
+  festus:  { name: 'Festus Ochonogor', initials: 'FO', id: 'ID 00841205', major: 'B.S. Psychology' }
+};
+
+function doLogout(){
+  // reset every screen back to its resting state
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('bottomNav').classList.add('hidden');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.screen === 'home'));
+
+  document.getElementById('uname').value = '';
+  document.getElementById('pword').value = '';
+  document.getElementById('loginError').style.display = 'none';
+
+  document.getElementById('screen-login').classList.add('active');
+  showToast('Logged out');
+}
+
+function doLogin(){
+  const uname = document.getElementById('uname').value.trim().toLowerCase();
+  const pword = document.getElementById('pword').value.trim();
+  const errorEl = document.getElementById('loginError');
+  const user = USERS[uname];
+
+  if (!user || pword !== '12345') {
+    errorEl.style.display = 'block';
+    return;
+  }
+  errorEl.style.display = 'none';
+  enterApp(user);
+}
+
+/* ---------- Smart, degree-aware content ---------- */
+// Each major gets its own real course line-up (name, room, professor) for
+// the same four daily time slots, so "Today's Classes" and "My Schedule"
+// always match what that student is actually studying.
+const MAJOR_COURSES = {
+  'B.S. Nursing': [
+    { time:'9:00',  period:'AM', name:'Fundamentals of Nursing',      room:'Health Sciences Bldg, Room 210', prof:'Prof. Adeyemi', bldg:'health' },
+    { time:'11:00', period:'AM', name:'Anatomy &amp; Physiology II',  room:'Bldg 3, Room 118',               prof:'Prof. Reyes',   bldg:'b3' },
+    { time:'1:30',  period:'PM', name:'Pharmacology Basics',          room:'Health Sciences Bldg, Room 112', prof:'Prof. Whitfield', bldg:'health' },
+    { time:'4:00',  period:'PM', name:'Clinical Skills Lab',          room:'Simulation Lab, Bldg 3',         prof:'Prof. Santos',  bldg:'b3' }
+  ],
+  'B.S. Information Technology': [
+    { time:'9:00',  period:'AM', name:'Intro to Databases',                 room:'Bldg 4, Room 210', prof:'Prof. Nakamura', bldg:'b4' },
+    { time:'11:00', period:'AM', name:'Technical Writing',                  room:'Bldg 1, Room 305', prof:'Prof. Ilori',    bldg:'b1' },
+    { time:'1:30',  period:'PM', name:'Systems Analysis &amp; Design',      room:'Bldg 2, Room 118', prof:'Prof. Whitfield', bldg:'b2' },
+    { time:'4:00',  period:'PM', name:'Cybersecurity Fundamentals Lab',     room:'Bldg 4, Room 112', prof:'Prof. Santos',   bldg:'b4' }
+  ],
+  'B.B.A. Business Administration': [
+    { time:'9:00',  period:'AM', name:'Principles of Marketing',   room:'Bldg 2, Room 210', prof:'Prof. Coleman',  bldg:'b2' },
+    { time:'11:00', period:'AM', name:'Financial Accounting',      room:'Bldg 2, Room 214', prof:'Prof. Osei',     bldg:'b2' },
+    { time:'1:30',  period:'PM', name:'Organizational Behavior',   room:'Bldg 1, Room 118', prof:'Prof. Whitfield', bldg:'b1' },
+    { time:'4:00',  period:'PM', name:'Business Analytics Lab',    room:'Bldg 2, Room 112', prof:'Prof. Nakamura', bldg:'b2' }
+  ],
+  'B.S. Mechanical Engineering': [
+    { time:'9:00',  period:'AM', name:'Statics &amp; Dynamics',       room:'Engineering Atrium, Room 101', prof:'Prof. Bello',  bldg:'eng' },
+    { time:'11:00', period:'AM', name:'Thermodynamics',               room:'Engineering Atrium, Room 204', prof:'Prof. Reyes',  bldg:'eng' },
+    { time:'1:30',  period:'PM', name:'CAD &amp; Technical Drawing',  room:'Bldg 4, Room 118',             prof:'Prof. Santos', bldg:'b4' },
+    { time:'4:00',  period:'PM', name:'Materials Science Lab',        room:'Engineering Atrium, Room 112', prof:'Prof. Ilori',  bldg:'eng' }
+  ],
+  'B.S. Psychology': [
+    { time:'9:00',  period:'AM', name:'Introduction to Psychology',    room:'Bldg 1, Room 210', prof:'Prof. Coleman',  bldg:'b1' },
+    { time:'11:00', period:'AM', name:'Developmental Psychology',      room:'Bldg 1, Room 118', prof:'Prof. Osei',     bldg:'b1' },
+    { time:'1:30',  period:'PM', name:'Research Methods',              room:'Bldg 3, Room 112', prof:'Prof. Whitfield', bldg:'b3' },
+    { time:'4:00',  period:'PM', name:'Counseling Techniques Seminar', room:'Bldg 1, Room 204', prof:'Prof. Adeyemi',  bldg:'b1' }
+  ],
+  'B.S. Biology': [
+    { time:'9:00',  period:'AM', name:'General Biology II',      room:'Bldg 3, Room 210', prof:'Prof. Reyes',    bldg:'b3' },
+    { time:'11:00', period:'AM', name:'Organic Chemistry',       room:'Bldg 3, Room 118', prof:'Prof. Bello',    bldg:'b3' },
+    { time:'1:30',  period:'PM', name:'Genetics',                room:'Bldg 3, Room 214', prof:'Prof. Adeyemi',  bldg:'b3' },
+    { time:'4:00',  period:'PM', name:'Wet Lab — Microscopy',    room:'Bldg 3, Room 112', prof:'Prof. Santos',   bldg:'b3' }
+  ],
+  'B.F.A. Graphic Design': [
+    { time:'9:00',  period:'AM', name:'Visual Design Principles', room:'Bldg 1, Room 210', prof:'Prof. Coleman',  bldg:'b1' },
+    { time:'11:00', period:'AM', name:'Typography',               room:'Bldg 1, Room 118', prof:'Prof. Ilori',    bldg:'b1' },
+    { time:'1:30',  period:'PM', name:'Digital Illustration',     room:'Bldg 1, Room 214', prof:'Prof. Osei',     bldg:'b1' },
+    { time:'4:00',  period:'PM', name:'Portfolio Studio',         room:'Bldg 1, Room 112', prof:'Prof. Whitfield', bldg:'b1' }
+  ],
+  'B.A. Education': [
+    { time:'9:00',  period:'AM', name:'Foundations of Education',    room:'Bldg 2, Room 210', prof:'Prof. Osei',    bldg:'b2' },
+    { time:'11:00', period:'AM', name:'Child Development',           room:'Bldg 2, Room 118', prof:'Prof. Adeyemi', bldg:'b2' },
+    { time:'1:30',  period:'PM', name:'Curriculum Design',           room:'Bldg 2, Room 214', prof:'Prof. Coleman', bldg:'b2' },
+    { time:'4:00',  period:'PM', name:'Classroom Practicum',         room:'Bldg 2, Room 112', prof:'Prof. Bello',   bldg:'b2' }
+  ],
+  'B.A. Communications': [
+    { time:'9:00',  period:'AM', name:'Media Writing',           room:'Bldg 1, Room 210', prof:'Prof. Ilori',     bldg:'b1' },
+    { time:'11:00', period:'AM', name:'Public Relations',        room:'Bldg 1, Room 118', prof:'Prof. Whitfield', bldg:'b1' },
+    { time:'1:30',  period:'PM', name:'Digital &amp; Social Media', room:'Bldg 1, Room 214', prof:'Prof. Coleman', bldg:'b1' },
+    { time:'4:00',  period:'PM', name:'Broadcast Studio Lab',    room:'Bldg 1, Room 112', prof:'Prof. Osei',      bldg:'b1' }
+  ],
+  'Undeclared — Exploring Majors': [
+    { time:'9:00',  period:'AM', name:'College Success Seminar', room:'Bldg 1, Room 100', prof:'Prof. Coleman',  bldg:'b1' },
+    { time:'11:00', period:'AM', name:'Intro to the Liberal Arts', room:'Bldg 1, Room 104', prof:'Prof. Osei',   bldg:'b1' },
+    { time:'1:30',  period:'PM', name:'Career Exploration Workshop', room:'Student Union Hall', prof:'Prof. Adeyemi', bldg:'union' },
+    { time:'4:00',  period:'PM', name:'Academic Advising Lab', room:'Bldg 1, Room 108', prof:'Prof. Bello',     bldg:'b1' }
+  ]
+};
+
+// A pool of possible events per major, tagged by category, so each login
+// gets a couple of events genuinely relevant to that student's field —
+// plus a few campus-wide events everyone sees regardless of major.
+const EVENTS_BY_MAJOR = {
+  'B.S. Nursing': [
+    { d:19, m:'Jul', name:'Clinical Skills Open House', time:'11:00 AM', loc:'Simulation Lab, Bldg 3', cat:'academic' },
+    { d:22, m:'Jul', name:'Nursing Student Association Social', time:'6:00 PM', loc:'Student Union Hall', cat:'social' },
+    { d:26, m:'Jul', name:'Blood Drive &amp; Health Screening', time:'9:00 AM', loc:'Health Center', cat:'academic' }
+  ],
+  'B.S. Information Technology': [
+    { d:19, m:'Jul', name:'Campus Hackathon Kickoff', time:'5:00 PM', loc:'Engineering Atrium', cat:'academic' },
+    { d:22, m:'Jul', name:'Cybersecurity Guest Lecture', time:'2:00 PM', loc:'Bldg 4, Room 112', cat:'academic' },
+    { d:25, m:'Jul', name:'Tech Club Game Night', time:'7:00 PM', loc:'Student Union Hall', cat:'social' }
+  ],
+  'B.B.A. Business Administration': [
+    { d:19, m:'Jul', name:'Startup Pitch Night', time:'6:00 PM', loc:'Student Union Hall', cat:'social' },
+    { d:22, m:'Jul', name:'Business Analytics Workshop', time:'1:00 PM', loc:'Bldg 2, Room 112', cat:'academic' },
+    { d:26, m:'Jul', name:'Alumni Networking Mixer', time:'5:30 PM', loc:'Central Quad', cat:'social' }
+  ],
+  'B.S. Mechanical Engineering': [
+    { d:19, m:'Jul', name:'Robotics Club Showcase', time:'2:00 PM', loc:'Engineering Atrium', cat:'academic' },
+    { d:22, m:'Jul', name:'CAD Design Sprint', time:'10:00 AM', loc:'Bldg 4, Room 118', cat:'academic' },
+    { d:25, m:'Jul', name:'Engineering Society Cookout', time:'4:00 PM', loc:'Central Quad', cat:'social' }
+  ],
+  'B.S. Psychology': [
+    { d:19, m:'Jul', name:'Mental Health Awareness Panel', time:'3:00 PM', loc:'Bldg 1, Room 204', cat:'academic' },
+    { d:22, m:'Jul', name:'Psychology Research Symposium', time:'11:00 AM', loc:'Bldg 3, Room 112', cat:'academic' },
+    { d:26, m:'Jul', name:'Peer Support Mixer', time:'5:00 PM', loc:'Student Union Hall', cat:'social' }
+  ],
+  'B.S. Biology': [
+    { d:19, m:'Jul', name:'Undergrad Research Poster Session', time:'1:00 PM', loc:'Bldg 3, Room 214', cat:'academic' },
+    { d:22, m:'Jul', name:'Pre-Med Society Info Session', time:'4:00 PM', loc:'Bldg 3, Room 118', cat:'academic' },
+    { d:25, m:'Jul', name:'Nature Trail Cleanup', time:'9:00 AM', loc:'Central Quad', cat:'social' }
+  ],
+  'B.F.A. Graphic Design': [
+    { d:19, m:'Jul', name:'Student Design Showcase', time:'5:00 PM', loc:'Bldg 1, Room 112', cat:'academic' },
+    { d:22, m:'Jul', name:'Portfolio Review Night', time:'6:00 PM', loc:'Bldg 1, Room 214', cat:'academic' },
+    { d:26, m:'Jul', name:'Art Walk on the Quad', time:'2:00 PM', loc:'Central Quad', cat:'social' }
+  ],
+  'B.A. Education': [
+    { d:19, m:'Jul', name:'Future Educators Meetup', time:'4:00 PM', loc:'Bldg 2, Room 210', cat:'social' },
+    { d:22, m:'Jul', name:'Classroom Management Workshop', time:'2:00 PM', loc:'Bldg 2, Room 214', cat:'academic' },
+    { d:26, m:'Jul', name:'Student Teaching Fair', time:'10:00 AM', loc:'Student Union Hall', cat:'academic' }
+  ],
+  'B.A. Communications': [
+    { d:19, m:'Jul', name:'Campus Radio Live Broadcast', time:'12:00 PM', loc:'Bldg 1, Room 112', cat:'social' },
+    { d:22, m:'Jul', name:'PR &amp; Media Ethics Talk', time:'3:00 PM', loc:'Bldg 1, Room 118', cat:'academic' },
+    { d:26, m:'Jul', name:'Student Journalism Showcase', time:'5:00 PM', loc:'Student Union Hall', cat:'academic' }
+  ],
+  'Undeclared — Exploring Majors': [
+    { d:19, m:'Jul', name:'Explore Your Major Fair', time:'11:00 AM', loc:'Student Union Hall', cat:'academic' },
+    { d:22, m:'Jul', name:'Academic Advising Open House', time:'1:00 PM', loc:'Bldg 1, Room 108', cat:'academic' },
+    { d:26, m:'Jul', name:'New Student Mixer', time:'6:00 PM', loc:'Central Quad', cat:'social' }
+  ]
+};
+// Campus-wide events everyone sees, regardless of major.
+const GENERAL_EVENTS = [
+  { d:18, m:'Jul', name:'Career Fair: All Majors Welcome', time:'10:00 AM', loc:'Student Union Hall', cat:'academic' },
+  { d:20, m:'Jul', name:'Movie Night on the Quad', time:'8:30 PM', loc:'Central Quad', cat:'social' },
+  { d:24, m:'Jul', name:'Intramural Soccer Finals', time:'3:00 PM', loc:'Central Quad', cat:'sports' }
+];
+
+// courseListHTML renders a set of class rows for a given major. Each row is
+// clickable (My Schedule and Today's Classes both use this) and opens the
+// class detail modal, which links straight to the campus map / directions.
+function courseListHTML(major, courses){
+  return courses.map((c, i) => `<div class="card"><div class="class-row" onclick="showClassDetail('${major.replace(/'/g, "\\'")}', ${i})"><div class="class-time">${c.time}<span>${c.period}</span></div><div class="class-info"><b>${c.name}</b><div class="meta">${c.room} · ${c.prof}</div></div></div></div>`).join('');
+}
+
+function eventCardHTML(ev, opts){
+  opts = opts || {};
+  const chipLabel = ev.cat.charAt(0).toUpperCase() + ev.cat.slice(1);
+  return `<div class="card event-card" data-cat="${ev.cat}">
+    <div class="event-date"><div class="d">${ev.d}</div><div class="m">${ev.m}</div></div>
+    <div class="event-body">
+      <b>${ev.name}</b>
+      <div class="meta">${ev.time} · ${ev.loc}</div>
+      <span class="chip ${ev.cat}">${chipLabel}</span>${opts.withRSVP === false ? '' : '<br><button class="rsvp-btn" onclick="toggleRSVP(this)">RSVP</button>'}
+    </div>
+  </div>`;
+}
+
+// Pulls a couple of random, major-relevant events each login so the events
+// feed feels tailored rather than static — this is what makes Events "smart".
+function pickRandom(arr, n){
+  const copy = arr.slice();
+  const out = [];
+  while (copy.length && out.length < n){
+    out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
+  }
+  return out;
+}
+
+let currentMajor = 'B.S. Information Technology';
+
+function renderScheduleForMajor(major){
+  const courses = MAJOR_COURSES[major] || MAJOR_COURSES['B.S. Information Technology'];
+  document.getElementById('scheduleClassList').innerHTML = courseListHTML(major, courses);
+  // Today's Classes shows the same two-course preview, indexed 0 and 2 so
+  // the onclick indices still line up with the full course array.
+  document.getElementById('homeTodayClasses').innerHTML =
+    `<div class="card"><div class="class-row" onclick="showClassDetail('${major.replace(/'/g, "\\'")}', 0)"><div class="class-time">${courses[0].time}<span>${courses[0].period}</span></div><div class="class-info"><b>${courses[0].name}</b><div class="meta">${courses[0].room} · ${courses[0].prof}</div></div></div></div>` +
+    `<div class="card"><div class="class-row" onclick="showClassDetail('${major.replace(/'/g, "\\'")}', 2)"><div class="class-time">${courses[2].time}<span>${courses[2].period}</span></div><div class="class-info"><b>${courses[2].name}</b><div class="meta">${courses[2].room} · ${courses[2].prof}</div></div></div></div>`;
+}
+
+// ---- Class detail modal (tap a class -> details -> map/directions) ----
+function showClassDetail(major, idx){
+  const courses = MAJOR_COURSES[major] || MAJOR_COURSES['B.S. Information Technology'];
+  const c = courses[idx];
+  if (!c) return;
+  document.getElementById('modalCourseName').textContent = c.name.replace(/&amp;/g, '&');
+  document.getElementById('modalCourseMeta').textContent = `${c.time} ${c.period} · ${c.room} · ${c.prof}`;
+  document.getElementById('modalMapBtn').setAttribute('data-bldg', c.bldg);
+  document.getElementById('modalDirectionsBtn').href = directionsUrlFor(c.bldg);
+  document.getElementById('classModal').classList.remove('hidden');
+}
+function closeClassModal(){
+  document.getElementById('classModal').classList.add('hidden');
+}
+function goToMapFromModal(){
+  const bldg = document.getElementById('modalMapBtn').getAttribute('data-bldg');
+  closeClassModal();
+  goTo('map');
+  // showBuilding also accepts being called without a chip/rect reference.
+  setTimeout(() => showBuilding(bldg), 50);
+}
+
+function renderEventsForMajor(major){
+  const majorEvents = EVENTS_BY_MAJOR[major] || EVENTS_BY_MAJOR['Undeclared — Exploring Majors'];
+  const chosen = pickRandom(majorEvents, 2).concat(GENERAL_EVENTS)
+    .sort((a, b) => a.d - b.d);
+  document.getElementById('eventsList').innerHTML = chosen.map(ev => eventCardHTML(ev)).join('');
+  document.getElementById('homeUpcomingEvent').innerHTML = eventCardHTML(chosen[0], { withRSVP:false });
+  // Reset the filter row back to "All" since we just rebuilt the list.
+  document.querySelectorAll('#eventFilterRow .filter-chip').forEach(c => c.classList.toggle('active', c.dataset.cat === 'all'));
+}
+
+function filterEvents(chipEl){
+  document.querySelectorAll('#eventFilterRow .filter-chip').forEach(c => c.classList.remove('active'));
+  chipEl.classList.add('active');
+  const cat = chipEl.dataset.cat;
+  document.querySelectorAll('#eventsList .event-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'flex' : 'none';
+  });
+}
+
+// ---- Academics (GPA / Assignments / Materials) — unique to each major ----
+const GRADE_POOL = ['A', 'A-', 'B+', 'B', 'B-'];
+const GRADE_POINTS = { 'A':4.0, 'A-':3.7, 'B+':3.3, 'B':3.0, 'B-':2.7 };
+function seededIndex(seed, mod){
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  return hash % mod;
+}
+const MATERIAL_TEMPLATES = [
+  { icon:'📄', label:'Syllabus.pdf', uploaded:'Jul 1' },
+  { icon:'📊', label:'Week 6 — Lecture Slides', uploaded:'Jul 14' },
+  { icon:'📋', label:'Study Guide', uploaded:'Jul 12' },
+  { icon:'📄', label:'Lab Worksheet', uploaded:'Jul 15' }
+];
+const ASSIGNMENT_TEMPLATES = [
+  { suffix:'Reading Response', due:'Fri, Jul 24', dueSoon:true, done:false },
+  { suffix:'Case Study Draft', due:'Mon, Jul 27', dueSoon:false, done:false },
+  { suffix:'Group Project Proposal', due:'Wed, Jul 29', dueSoon:false, done:false },
+  { suffix:'Lab Report', due:'Mon, Jul 20', dueSoon:false, done:true }
+];
+
+function renderAcademicsForMajor(major){
+  const courses = MAJOR_COURSES[major] || MAJOR_COURSES['B.S. Information Technology'];
+  const plainName = c => c.name.replace(/&amp;/g, '&');
+
+  // GPA
+  let totalPoints = 0;
+  const gpaRows = courses.map((c, i) => {
+    const grade = GRADE_POOL[seededIndex(major + i, GRADE_POOL.length)];
+    totalPoints += GRADE_POINTS[grade];
+    return `<div class="card"><div class="gpa-row"><div><div class="course">${plainName(c)}</div><div class="credits">3 credits</div></div><span class="grade-pill">${grade}</span></div></div>`;
+  }).join('');
+  document.getElementById('gpaCourseList').innerHTML = gpaRows;
+  document.getElementById('gpaCumulative').textContent = (totalPoints / courses.length).toFixed(2);
+  document.getElementById('gpaCredits').textContent = courses.length * 3;
+
+  // Assignments
+  const assignRows = courses.map((c, i) => {
+    const t = ASSIGNMENT_TEMPLATES[i];
+    return `<div class="card assign-row${t.done ? ' done' : ''}" onclick="toggleAssignment(this)">
+      <div class="check-circle${t.done ? ' done' : ''}">✓</div>
+      <div class="assign-body"><b>${plainName(c)} — ${t.suffix}</b><div class="meta${t.dueSoon ? ' due-soon' : ''}">${plainName(c)} · Due ${t.due}</div></div>
+    </div>`;
+  }).join('');
+  document.getElementById('assignmentList').innerHTML = assignRows;
+  const soon = courses.map((c, i) => ({ c, t: ASSIGNMENT_TEMPLATES[i] })).find(x => x.t.dueSoon);
+  document.getElementById('assignmentBannerText').textContent = soon ? ` ${plainName(soon.c)} — ${soon.t.suffix} is due soon.` : ' Nothing urgent — you\'re all caught up.';
+
+  // Materials
+  const materialRows = courses.map((c, i) => {
+    const m1 = MATERIAL_TEMPLATES[0];
+    const m2 = MATERIAL_TEMPLATES[(i % 3) + 1];
+    return `<p class="section-title">${plainName(c)}</p>
+      <div class="card material-row"><div class="material-icon">${m1.icon}</div><div class="material-body"><b>${m1.label}</b><span class="meta">Uploaded ${m1.uploaded}</span></div></div>
+      <div class="card material-row"><div class="material-icon">${m2.icon}</div><div class="material-body"><b>${m2.label}</b><span class="meta">Uploaded ${m2.uploaded}</span></div></div>`;
+  }).join('');
+  document.getElementById('materialsList').innerHTML = materialRows;
+}
+
+// ---- Study Groups — unique to each major's own courses ----
+const SG_MEETING_SLOTS = [
+  { members:6, loc:'Library, 3rd floor', when:'Mon 6pm' },
+  { members:4, loc:'Student Union Hall', when:'Wed 5pm' },
+  { members:5, loc:'Bldg 2, Study Room', when:'Thu 4pm' },
+  { members:3, loc:'Central Quad', when:'Tue 2pm' }
+];
+function abbreviateCourse(name){
+  const skip = new Set(['of', 'the', 'and', 'in', 'to', 'a', 'an', '&', 'ii']);
+  const words = name.replace(/&amp;/g, '&').split(/\s+/).filter(w => !skip.has(w.toLowerCase()));
+  return (words[0] ? words[0][0] : '') .concat(words[1] ? words[1][0] : (words[0] ? words[0][1] || '' : '')).toUpperCase();
+}
+function renderStudyGroupsForMajor(major){
+  const courses = MAJOR_COURSES[major] || MAJOR_COURSES['B.S. Information Technology'];
+  const rows = courses.map((c, i) => {
+    const plain = c.name.replace(/&amp;/g, '&');
+    const slot = SG_MEETING_SLOTS[i];
+    const joined = i === 0; // seed one "already joined" group for realism
+    return `<div class="card sg-row" data-course="${plain.toLowerCase()}">
+      <div class="sg-icon">${abbreviateCourse(c.name)}</div>
+      <div class="sg-info"><b>${plain} Study Group</b><div class="meta">${slot.members} members · ${slot.loc} · ${slot.when}</div></div>
+      <button class="join-btn${joined ? ' joined' : ''}" onclick="toggleJoin(this)">${joined ? 'Joined' : 'Join'}</button>
+    </div>`;
+  }).join('');
+  document.getElementById('sgList').innerHTML = rows;
+}
+
+function enterApp(profile){
+  document.getElementById('greetName').textContent = profile.name.split(' ')[0];
+  document.getElementById('avatarInitials').textContent = profile.initials;
+  document.getElementById('idName').textContent = profile.name;
+  document.getElementById('idPhoto').textContent = profile.initials;
+  document.getElementById('idNumber').textContent = profile.id;
+  const major = profile.major || 'Undeclared — Exploring Majors';
+  currentMajor = major;
+  document.getElementById('idMajor').textContent = major + ' · Class of ' + (profile.classYear || '2027');
+  renderScheduleForMajor(major);
+  renderEventsForMajor(major);
+  renderAcademicsForMajor(major);
+  renderStudyGroupsForMajor(major);
+
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-home').classList.add('active');
+  document.getElementById('bottomNav').classList.remove('hidden');
+}
+
+/* ---------- Gmail sign-up: email -> OTP -> resume upload ---------- */
+let pendingSignup = { email: '', otp: '' };
+
+function goToSignup(){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('signupEmail').value = '';
+  document.getElementById('signupError').style.display = 'none';
+  document.getElementById('screen-signup').classList.add('active');
+}
+
+function goToLogin(){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('screen-login').classList.add('active');
+}
+
+function sendOtp(isResend){
+  const emailInput = document.getElementById('signupEmail');
+  const errorEl = document.getElementById('signupError');
+
+  // On resend, we're already on the OTP screen — reuse the stored email.
+  let email = isResend ? pendingSignup.email : emailInput.value.trim().toLowerCase();
+
+  if (!/^[^\s@]+@gmail\.com$/.test(email)) {
+    if (!isResend){ errorEl.style.display = 'block'; }
+    return;
+  }
+  errorEl.style.display = 'none';
+
+  pendingSignup.email = email;
+  pendingSignup.otp = String(Math.floor(100000 + Math.random() * 900000));
+
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-otp').classList.add('active');
+  document.getElementById('otpInput').value = '';
+  document.getElementById('otpError').style.display = 'none';
+  document.getElementById('otpSubtitle').textContent = 'Code sent to ' + email;
+
+  // No real mail server is wired up in this prototype, so the code is
+  // surfaced right here instead of an actual inbox — this keeps the OTP
+  // step testable without sending real email.
+  showToast('Demo code: ' + pendingSignup.otp);
+}
+
+function verifyOtp(){
+  const entered = document.getElementById('otpInput').value.trim();
+  const errorEl = document.getElementById('otpError');
+
+  if (entered !== pendingSignup.otp) {
+    errorEl.style.display = 'block';
+    return;
+  }
+  errorEl.style.display = 'none';
+
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('resumeFileName').textContent = 'Tap to upload resume (PDF, DOC, DOCX, TXT)';
+  document.getElementById('resumeParsed').style.display = 'none';
+  document.getElementById('resumeContinueBtn').style.display = 'none';
+  document.getElementById('resumeFile').value = '';
+  document.getElementById('screen-resume').classList.add('active');
+}
+
+/* ---------- Resume-based career path detection ---------- */
+// Keyword clusters mapped to majors — this is what makes signup route people
+// into different disciplines instead of everyone landing on IT.
+const CAREER_PATHS = [
+  { keywords: ['nurs', 'clinical', 'patient care', 'hospital', 'triage', 'medical assist'], major: 'B.S. Nursing' },
+  { keywords: ['market', 'sales', 'finance', 'accounting', 'business analy', 'management intern'], major: 'B.B.A. Business Administration' },
+  { keywords: ['mechanical', 'cad', 'manufactur', 'thermodynamics', 'autocad', 'machining'], major: 'B.S. Mechanical Engineering' },
+  { keywords: ['psycholog', 'counsel', 'behavior', 'therapy', 'case management'], major: 'B.S. Psychology' },
+  { keywords: ['network', 'cybersecurity', 'database', 'software', 'programming', 'it support', 'help desk', 'sysadmin'], major: 'B.S. Information Technology' },
+  { keywords: ['biology', 'chemistry', 'lab technician', 'research assistant', 'microscop'], major: 'B.S. Biology' },
+  { keywords: ['graphic', 'illustrat', 'photoshop', 'ui design', 'visual design'], major: 'B.F.A. Graphic Design' },
+  { keywords: ['teach', 'tutor', 'classroom', 'curriculum', 'lesson plan'], major: 'B.A. Education' },
+  { keywords: ['journal', 'copywrit', 'social media', 'communications intern', 'pr campaign'], major: 'B.A. Communications' }
+];
+
+function detectMajorFromText(text){
+  if (!text) return null;
+  const lower = text.toLowerCase();
+  for (const path of CAREER_PATHS){
+    if (path.keywords.some(k => lower.includes(k))) return path.major;
+  }
+  return null;
+}
+
+// When we can't read the file's contents (PDF/DOC/DOCX in this prototype),
+// this still avoids defaulting everyone to the same major: it checks the
+// filename for a hint first, then falls back to a deterministic pick so the
+// same file always lands on the same (varied) result across demo signups.
+function fallbackMajor(seed){
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  const pool = CAREER_PATHS.map(p => p.major).concat(['Undeclared — Exploring Majors']);
+  return pool[hash % pool.length];
+}
+
+function handleResume(event){
+  const file = event.target.files[0];
+  if (!file) return;
+
+  document.getElementById('resumeFileName').textContent = file.name;
+
+  // Best-effort demo extraction: plain-text resumes get scanned for a name,
+  // and keywords are used to route to a likely career path/major. Other
+  // formats (PDF/DOCX) fall back to filename hints, since real parsing of
+  // those needs a backend this prototype doesn't have.
+  const guessNameFromFilename = () => {
+    return file.name
+      .replace(/\.(pdf|docx?|txt)$/i, '')
+      .replace(/[_-]+/g, ' ')
+      .replace(/\bresume\b|\bcv\b/gi, '')
+      .trim()
+      .replace(/\s+/g, ' ')
+      .replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()) || 'Your name';
+  };
+
+  if (/\.txt$/i.test(file.name)) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const text = e.target.result;
+      const firstLine = text.split('\n').map(l => l.trim()).find(l => l.length > 2) || '';
+      const explicitMajor = text.match(/(B\.?S\.?|B\.?A\.?|B\.?B\.?A\.?|B\.?F\.?A\.?|Bachelor of[^\n,.]*)[^\n,.]*/i);
+      const detected = explicitMajor ? explicitMajor[0].trim() : (detectMajorFromText(text) || fallbackMajor(file.name));
+      document.getElementById('resumeName').value = firstLine.slice(0, 60) || guessNameFromFilename();
+      document.getElementById('resumeMajor').value = detected;
+      document.getElementById('resumeParsed').style.display = 'block';
+      document.getElementById('resumeContinueBtn').style.display = 'block';
+    };
+    reader.readAsText(file);
+  } else {
+    document.getElementById('resumeName').value = guessNameFromFilename();
+    document.getElementById('resumeMajor').value = detectMajorFromText(file.name) || fallbackMajor(file.name);
+    document.getElementById('resumeParsed').style.display = 'block';
+    document.getElementById('resumeContinueBtn').style.display = 'block';
+  }
+}
+
+function finishSignup(){
+  const name = document.getElementById('resumeName').value.trim() || 'New Student';
+  const major = document.getElementById('resumeMajor').value.trim() || 'Undeclared';
+  const initials = name.split(' ').filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') || 'NS';
+  const idNum = 'ID ' + Math.floor(10000000 + Math.random() * 89999999);
+
+  enterApp({ name, initials, id: idNum, major });
+  showToast('Account created — welcome!');
+}
+
+function goTo(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    n.classList.toggle('active', n.dataset.screen===name);
+  });
+}
+
+function toggleRSVP(btn){
+  const going = btn.classList.toggle('going');
+  btn.textContent = going ? 'Going ✓' : 'RSVP';
+  showToast(going ? "You're going!" : 'RSVP removed');
+}
+
+function toggleJoin(btn){
+  const joined = btn.classList.toggle('joined');
+  btn.textContent = joined ? 'Joined' : 'Join';
+  showToast(joined ? 'Joined club' : 'Left club');
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>t.classList.remove('show'), 1400);
+}
+
+const campusLocations=[
+{name:"Building 4 - Room 210",type:"Classroom",location:"Database Class"},
+{name:"Building 2 - Room 118",type:"Classroom",location:"Systems Analysis"},
+{name:"Professor Nakamura",type:"Faculty Office",location:"Building 4, Office 305"},
+{name:"Professor Whitfield",type:"Faculty Office",location:"Building 2, Office 112"},
+{name:"Library",type:"Campus Facility",location:"Central Campus"},
+{name:"Student Union Hall",type:"Campus Facility",location:"Main Campus"},
+{name:"Engineering Atrium",type:"Campus Facility",location:"Engineering Building"},
+{name:"Health Center",type:"Campus Facility",location:"West Campus"}
+];
+function searchCampus(){
+const input=document.getElementById("campusSearch").value.toLowerCase();
+const results=document.getElementById("searchResults");
+if(input===""){results.innerHTML="";return;}
+const matches=campusLocations.filter(i=>i.name.toLowerCase().includes(input)||i.type.toLowerCase().includes(input)||i.location.toLowerCase().includes(input));
+results.innerHTML=matches.length?matches.map(i=>`<div class="card" style="margin-bottom:8px;"><b>${i.name}</b><br><small>${i.type}</small><br>📍 ${i.location}</div>`).join(""):"<p style='color:#777;'>No matching locations found.</p>";
+}
+
+function searchCampus2(){
+const input=document.getElementById("campusSearch2").value.toLowerCase();
+const results=document.getElementById("searchResults2");
+if(input===""){results.innerHTML="";return;}
+const matches=campusLocations.filter(i=>i.name.toLowerCase().includes(input)||i.type.toLowerCase().includes(input)||i.location.toLowerCase().includes(input));
+results.innerHTML=matches.length?matches.map(i=>`<div class="card" style="margin-bottom:8px;"><b>${i.name}</b><br><small>${i.type}</small><br>📍 ${i.location}</div>`).join(""):"<p style='color:#777;'>No matching locations found.</p>";
+}
+
+/* ---------- Academics hub ---------- */
+function showAcademicsTab(tab){
+  document.querySelectorAll('#screen-academics .tab-chip').forEach(c=>c.classList.toggle('active', c.dataset.tab===tab));
+  document.querySelectorAll('#screen-academics .tab-pane').forEach(p=>p.classList.toggle('active', p.id==='pane-'+tab));
+}
+
+function toggleAssignment(row){
+  row.classList.toggle('done');
+  row.querySelector('.check-circle').classList.toggle('done');
+  showToast(row.classList.contains('done') ? 'Marked complete' : 'Marked incomplete');
+}
+
+function searchCourses(){
+  const input = document.getElementById('courseSearch').value.toLowerCase();
+  const results = document.getElementById('courseSearchResults');
+  if(input===''){ results.innerHTML=''; return; }
+  const courses = MAJOR_COURSES[currentMajor] || MAJOR_COURSES['B.S. Information Technology'];
+  const matches = courses.filter(c => c.name.replace(/&amp;/g, '&').toLowerCase().includes(input));
+  results.innerHTML = matches.length
+    ? matches.map(c=>`<div class="card" style="margin-bottom:8px;"><b>${c.name.replace(/&amp;/g, '&')}</b><br><small>${c.room} · ${c.prof}</small></div>`).join('')
+    : "<p style='color:#777;'>No matching courses found.</p>";
+}
+
+/* ---------- Campus Map ---------- */
+// Coordinates are real-world so the "Open in Google Maps" link genuinely
+// opens live Google Maps in a new tab. (An embedded iframe was tried first,
+// but the in-app preview's Content-Security-Policy blocks framing maps.google.com
+// — net::ERR_BLOCKED_BY_CSP — so a real outbound link is used instead, which
+// always works since it's a normal navigation, not a frame.)
+const buildingDirectory = {
+  lib:    { name: 'Library', lat: 39.9522, lng: -75.1932, rooms: ['Main reading room', '3rd floor group study', 'Media lab'] },
+  b1:     { name: 'Building 1', lat: 39.9530, lng: -75.1919, rooms: ['Room 305 — Prof. Ilori', 'Writing Center'] },
+  b2:     { name: 'Building 2', lat: 39.9515, lng: -75.1908, rooms: ['Room 118 — Prof. Whitfield', 'Room 204 — Prof. Choi'] },
+  b3:     { name: 'Building 3 — Health Sciences', lat: 39.9512, lng: -75.1935, rooms: ['Anatomy & Physiology labs', 'Simulation Lab', 'Wet lab / microscopy suite'] },
+  union:  { name: 'Student Union Hall', lat: 39.9508, lng: -75.1945, rooms: ['Dining hall', 'Event space', 'Club offices'] },
+  b4:     { name: 'Building 4', lat: 39.9535, lng: -75.1950, rooms: ['Room 210 — Prof. Nakamura', 'Room 112 — Prof. Santos'] },
+  eng:    { name: 'Engineering Atrium', lat: 39.9540, lng: -75.1900, rooms: ['Robotics lab', 'Maker space'] },
+  health: { name: 'Health Center', lat: 39.9500, lng: -75.1920, rooms: ['Front desk', 'Counseling services'] },
+  quad:   { name: 'Central Quad', lat: 39.9520, lng: -75.1925, rooms: ['Outdoor events lawn', 'Movie night screen'] }
+};
+function showBuilding(id, rectEl){
+  const b = buildingDirectory[id];
+  if (!b) return;
+  const el = document.getElementById('buildingInfo');
+  if (el) el.innerHTML = `<p class="section-title">${b.name}</p><div class="card">${b.rooms.map(r=>'📍 '+r).join('<br>')}</div>`;
+  const link = document.getElementById('gmapLink');
+  if (link){
+    link.href = `https://www.google.com/maps/search/?api=1&query=${b.lat},${b.lng}`;
+    link.textContent = `Open ${b.name} in Google Maps ↗`;
+  }
+  document.querySelectorAll('.map-svg rect').forEach(r => r.style.opacity = '1');
+  if (rectEl) rectEl.style.opacity = '0.75';
+}
+function directionsUrlFor(bldgId){
+  const b = buildingDirectory[bldgId];
+  return b ? `https://www.google.com/maps/search/?api=1&query=${b.lat},${b.lng}` : '#';
+}
+// Show the Library's info by default when the map first loads.
+document.addEventListener('DOMContentLoaded', () => showBuilding('lib'));
+
+/* ---------- Study groups ---------- */
+function searchStudyGroups(){
+  const input = document.getElementById('sgSearch').value.toLowerCase();
+  document.querySelectorAll('#sgList .sg-row').forEach(row=>{
+    row.style.display = row.dataset.course.includes(input) ? 'flex' : 'none';
+  });
+}
+
+/* ---------- Poll ---------- */
+let pollVotes = { great: 4, ok: 2, frustrating: 1 };
+let pollVoted = false;
+function votePoll(el, key){
+  if(pollVoted) return;
+  pollVoted = true;
+  pollVotes[key]++;
+  const total = Object.values(pollVotes).reduce((a,b)=>a+b,0);
+  document.querySelectorAll('#screen-feedback .poll-option').forEach(opt=>{
+    const k = opt.getAttribute('onclick').match(/'(\w+)'/)[1];
+    const pct = Math.round((pollVotes[k]/total)*100);
+    opt.querySelector('.fill').style.width = pct + '%';
+    opt.querySelector('.pct').textContent = pct + '%';
+    if(k===key) opt.classList.add('voted');
+  });
+  document.getElementById('pollHint').textContent = 'Thanks for voting!';
+}
+
+function submitFeedback(){
+  const text = document.getElementById('feedbackText').value.trim();
+  if(!text) return;
+  document.getElementById('feedbackText').value = '';
+  showToast('Feedback submitted — thank you!');
+}
+
+/* ---------- Settings ---------- */
+function toggleDark(){
+  const on = document.querySelector('.phone').classList.toggle('dark');
+  document.getElementById('darkSwitch').classList.toggle('on', on);
+  showToast(on ? 'Dark mode on' : 'Dark mode off');
+}
+function toggleOffline(){
+  const sw = document.getElementById('offlineSwitch');
+  const on = sw.classList.toggle('on');
+  showToast(on ? 'Schedule cached for offline access' : 'Offline access disabled');
+}
+function toggleSwitch(sw){
+  const on = sw.classList.toggle('on');
+  showToast(on ? 'Notifications on' : 'Notifications off');
+}
+
+</script>
